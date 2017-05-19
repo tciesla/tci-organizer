@@ -9,7 +9,6 @@
 	<packaging>war</packaging>
 
 	<name>tci-organizer</name>
-	<description></description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -48,6 +47,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>21.0</version>
 		</dependency>
 	</dependencies>
 
