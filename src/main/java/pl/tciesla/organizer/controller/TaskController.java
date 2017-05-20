@@ -11,12 +11,15 @@ import java.util.List;
 @Controller
 public class TaskController {
 
-    private final String TASKS_VIEW = "tasks";
+    @GetMapping("/")
+    public String redirectToTasks() {
+        return "redirect:/tasks";
+    }
 
     @GetMapping("/tasks")
     public String tasks(Model model) {
         model.addAttribute("tasks", findAllTasks());
-        return TASKS_VIEW;
+        return "tasks";
     }
 
     private List<Task> findAllTasks() {
