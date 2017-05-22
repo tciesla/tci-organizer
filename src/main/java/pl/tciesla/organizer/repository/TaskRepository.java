@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface TaskRepository {
 
+    Long nextId();
     List<Task> findAll();
+    void save(Task task);
     void delete(Long taskId);
 }

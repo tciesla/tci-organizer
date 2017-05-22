@@ -5,15 +5,16 @@ import org.springframework.stereotype.Repository;
 import pl.tciesla.organizer.model.Task;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import static java.util.stream.Collectors.toList;
 
 @Repository
 public class TaskRepositoryInMemory implements TaskRepository {
 
-    private static List<Task> tasks = Lists.newArrayList();
+    private List<Task> tasks = Lists.newArrayList();
 
-    static {
+    public TaskRepositoryInMemory() {
         tasks.add(new Task(1L, "Example task #1"));
         tasks.add(new Task(2L, "Example task #2"));
         tasks.add(new Task(3L, "Example task #3"));
@@ -22,8 +23,19 @@ public class TaskRepositoryInMemory implements TaskRepository {
     }
 
     @Override
+    public Long nextId() {
+        OptionalLong maxIdOptional = tasks.stream().mapToLong(Task::getId).max();
+        return maxIdOptional.isPresent() ? maxIdOptional.getAsLong() + 1 : 1L;
+    }
+
+    @Override
     public List<Task> findAll() {
         return Lists.newArrayList(tasks);
+    }
+
+    @Override
+    public void save(Task task) {
+        tasks.add(task);
     }
 
     @Override

@@ -38,6 +38,13 @@
         </table>
     </div>
 
+    <div class="row">
+        <form action="#" th:action="@{/tasks}" th:object="${taskForm}" th:method="post">
+            <p>Name: <input type="text" th:field="*{name}"/></p>
+            <p><button type="submit" class="btn btn-xs btn-success">Save</button></p>
+        </form>
+    </div>
+
 </div>
 
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
