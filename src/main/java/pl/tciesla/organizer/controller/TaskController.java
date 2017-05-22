@@ -1,15 +1,19 @@
 package pl.tciesla.organizer.controller;
 
-import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.tciesla.organizer.model.Task;
+import pl.tciesla.organizer.repository.TaskRepository;
 
 import java.util.List;
 
 @Controller
 public class TaskController {
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @GetMapping("/")
     public String redirectToTasks() {
@@ -18,14 +22,9 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String tasks(Model model) {
-        model.addAttribute("tasks", findAllTasks());
+        List<Task> tasks = taskRepository.findAll();
+        model.addAttribute("tasks", tasks);
         return "tasks";
-    }
-
-    private List<Task> findAllTasks() {
-        Task task1 = new Task(1L, "Create task repository");
-        Task task2 = new Task(2L, "Remove redundant files");
-        return Lists.newArrayList(task1, task2);
     }
 
 }
