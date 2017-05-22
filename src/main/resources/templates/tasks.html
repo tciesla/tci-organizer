@@ -28,7 +28,10 @@
                 <td class="col-xs-9" th:text="${task.name}"></td>
                 <td class="col-xs-1" th:text="${task.status}"></td>
                 <td class="col-xs-1">
-                    <form action="#" th:action="@{'/tasks/{id}'(id=${task.id})}" th:method="delete">
+                    <form class="col-xs-6" action="#" th:action="@{'/tasks/{id}/complete'(id=${task.id})}" th:method="post">
+                        <button type="submit" class="btn btn-xs btn-success">C</button>
+                    </form>
+                    <form class="col-xs-6" action="#" th:action="@{'/tasks/{id}'(id=${task.id})}" th:method="delete">
                         <input type="hidden" name="_method" value="delete"/>
                         <button type="submit" class="btn btn-xs btn-danger">X</button>
                     </form>

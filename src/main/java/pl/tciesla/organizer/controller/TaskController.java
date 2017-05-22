@@ -9,6 +9,7 @@ import pl.tciesla.organizer.model.Task;
 import pl.tciesla.organizer.repository.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class TaskController {
@@ -44,6 +45,13 @@ public class TaskController {
     @DeleteMapping("/tasks/{taskId}")
     public String deleteTask(@PathVariable Long taskId) {
         taskRepository.delete(taskId);
+        return REDIRECT;
+    }
+
+    @PostMapping("/tasks/{taskId}/complete")
+    public String completeTask(@PathVariable Long taskId) {
+        Optional<Task> taskOptional = taskRepository.find(taskId);
+        taskOptional.ifPresent(Task::complete);
         return REDIRECT;
     }
 

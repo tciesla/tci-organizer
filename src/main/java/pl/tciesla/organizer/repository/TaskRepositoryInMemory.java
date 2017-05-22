@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.tciesla.organizer.model.Task;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalLong;
 
 import static java.util.stream.Collectors.toList;
@@ -31,6 +32,13 @@ public class TaskRepositoryInMemory implements TaskRepository {
     @Override
     public List<Task> findAll() {
         return Lists.newArrayList(tasks);
+    }
+
+    @Override
+    public Optional<Task> find(Long taskId) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(taskId))
+                .findAny();
     }
 
     @Override
