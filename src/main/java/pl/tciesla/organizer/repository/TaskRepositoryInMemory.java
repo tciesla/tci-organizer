@@ -6,6 +6,8 @@ import pl.tciesla.organizer.model.Task;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Repository
 public class TaskRepositoryInMemory implements TaskRepository {
 
@@ -22,6 +24,13 @@ public class TaskRepositoryInMemory implements TaskRepository {
     @Override
     public List<Task> findAll() {
         return Lists.newArrayList(tasks);
+    }
+
+    @Override
+    public void delete(Long taskId) {
+        tasks = tasks.stream()
+                .filter(task -> !task.getId().equals(taskId))
+                .collect(toList());
     }
 
 }

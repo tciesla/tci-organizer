@@ -19,13 +19,20 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="task,iter : ${tasks}">
                 <td class="col-xs-1" th:text="${iter.index+1}"></td>
-                <td class="col-xs-10" th:text="${task.name}"></td>
+                <td class="col-xs-9" th:text="${task.name}"></td>
                 <td class="col-xs-1" th:text="${task.status}"></td>
+                <td class="col-xs-1">
+                    <form action="#" th:action="@{'/tasks/{id}'(id=${task.id})}" th:method="delete">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-xs btn-danger">X</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
