@@ -29,11 +29,15 @@
                 <td class="col-xs-1" th:text="${task.status}"></td>
                 <td class="col-xs-1">
                     <form class="col-xs-6" action="#" th:action="@{'/tasks/{id}/complete'(id=${task.id})}" th:method="post">
-                        <button type="submit" class="btn btn-xs btn-success">C</button>
+                        <button type="submit" class="btn btn-xs btn-btn-xs btn-success">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button>
                     </form>
                     <form class="col-xs-6" action="#" th:action="@{'/tasks/{id}'(id=${task.id})}" th:method="delete">
                         <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" class="btn btn-xs btn-danger">X</button>
+                        <button type="submit" class="btn btn-xs btn-danger">
+                            <span class="glyphicon glyphicon-minus-sign"></span>
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -42,9 +46,13 @@
     </div>
 
     <div class="row">
-        <form action="#" th:action="@{/tasks}" th:object="${taskForm}" th:method="post">
-            <p>Name: <input type="text" th:field="*{name}"/></p>
-            <p><button type="submit" class="btn btn-xs btn-success">Save</button></p>
+        <form class="form-inline" action="#" th:action="@{/tasks}" th:object="${taskForm}" th:method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Task name" th:field="*{name}"/>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </button>
         </form>
     </div>
 
