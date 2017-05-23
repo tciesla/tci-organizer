@@ -1,6 +1,7 @@
 package pl.tciesla.organizer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class TaskController {
     private final String REDIRECT = "redirect:/tasks";
     private final String TASK_FORM_ATTRIBUTE = "taskForm";
 
-    @Autowired
+    @Autowired @Qualifier("taskRepositoryXml")
     private TaskRepository taskRepository;
 
     @GetMapping("/")
@@ -52,6 +53,7 @@ public class TaskController {
     public String completeTask(@PathVariable Long taskId) {
         Optional<Task> taskOptional = taskRepository.find(taskId);
         taskOptional.ifPresent(Task::complete);
+        taskOptional.ifPresent(taskRepository::save);
         return REDIRECT;
     }
 
