@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.tciesla.organizer.form.TaskForm;
 import pl.tciesla.organizer.model.Task;
 import pl.tciesla.organizer.repository.TaskRepository;
+import pl.tciesla.organizer.repository.TaskRepositoryXml;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,8 @@ public class TaskController {
     private final String REDIRECT = "redirect:/tasks";
     private final String TASK_FORM_ATTRIBUTE = "taskForm";
 
-    @Autowired @Qualifier("taskRepositoryXml")
+    @Autowired
+    @Qualifier(TaskRepositoryXml.BEAN_NAME)
     private TaskRepository taskRepository;
 
     @GetMapping("/")

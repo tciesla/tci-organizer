@@ -25,8 +25,10 @@ import java.util.OptionalLong;
 
 import static java.util.stream.Collectors.toList;
 
-@Repository
+@Repository(TaskRepositoryXml.BEAN_NAME)
 public class TaskRepositoryXml implements TaskRepository {
+
+    public static final String BEAN_NAME = "taskRepositoryXml";
 
     // TODO create property and inject it here
     private String xmlFileRepositoryPath = "C:/database/tasks.xml";
