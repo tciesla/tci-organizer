@@ -1,11 +1,13 @@
 package pl.tciesla.organizer.model;
 
 import lombok.Getter;
+import pl.tciesla.organizer.util.LocalDateTimeXmlAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -17,9 +19,14 @@ public class Task {
     @Getter private Long id;
     @Getter private String name;
     @Getter private Status status;
-    @Getter private Date created;
     @Getter private boolean important;
-    private Date finished;
+
+    @Getter
+    @XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
+    private LocalDateTime created;
+
+    @XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
+    private LocalDateTime finished;
 
     public enum Status {
         NEW, COMPLETED
@@ -33,7 +40,7 @@ public class Task {
         this.id = checkNotNull(id, "id == null");
         this.name = checkNotNull(name, "name == null");
         this.status = Status.NEW;
-        this.created = new Date();
+        this.created = LocalDateTime.now();
     }
 
     public void toggleImportant() {
@@ -42,10 +49,10 @@ public class Task {
 
     public void complete() {
         this.status = Status.COMPLETED;
-        this.finished = new Date();
+        this.finished = LocalDateTime.now();
     }
 
-    public Optional<Date> getFinished() {
+    public Optional<LocalDateTime> getFinished() {
         return Optional.ofNullable(finished);
     }
 
