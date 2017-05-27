@@ -18,6 +18,7 @@ public class Task {
     @Getter private String name;
     @Getter private Status status;
     @Getter private Date created;
+    @Getter private boolean important;
     private Date finished;
 
     public enum Status {
@@ -33,6 +34,10 @@ public class Task {
         this.name = checkNotNull(name, "name == null");
         this.status = Status.NEW;
         this.created = new Date();
+    }
+
+    public void toggleImportant() {
+        this.important = !this.important;
     }
 
     public void complete() {

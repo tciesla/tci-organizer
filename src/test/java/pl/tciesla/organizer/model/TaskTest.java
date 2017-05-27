@@ -56,6 +56,24 @@ public class TaskTest {
     }
 
     @Test
+    public void should_initialized_task_be_not_important() throws Exception {
+        // when
+        Task task = new Task(id, name);
+        // then
+        assertThat(task.isImportant()).isFalse();
+    }
+
+    @Test
+    public void should_tag_task_as_important() throws Exception {
+        // given
+        Task task = new Task(id, name);
+        // when
+        task.toggleImportant();
+        // then
+        assertThat(task.isImportant()).isTrue();
+    }
+
+    @Test
     public void should_complete_change_task_status_to_completed() throws Exception {
         // given
         Task task = new Task(id, name);

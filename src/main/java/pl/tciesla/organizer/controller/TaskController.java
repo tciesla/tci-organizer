@@ -51,7 +51,15 @@ public class TaskController {
         return REDIRECT;
     }
 
-    @PostMapping("/tasks/{taskId}/complete")
+    @PutMapping("/tasks/{taskId}/important")
+    public String importantTask(@PathVariable Long taskId) {
+        Optional<Task> taskOptional = taskRepository.find(taskId);
+        taskOptional.ifPresent(Task::toggleImportant);
+        taskOptional.ifPresent(taskRepository::save);
+        return REDIRECT;
+    }
+
+    @PutMapping("/tasks/{taskId}/complete")
     public String completeTask(@PathVariable Long taskId) {
         Optional<Task> taskOptional = taskRepository.find(taskId);
         taskOptional.ifPresent(Task::complete);
