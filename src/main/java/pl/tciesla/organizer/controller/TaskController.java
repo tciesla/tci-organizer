@@ -13,6 +13,8 @@ import pl.tciesla.organizer.repository.TaskRepositoryXml;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 @Controller
 public class TaskController {
 
@@ -32,6 +34,13 @@ public class TaskController {
     public String tasks(Model model) {
         List<Task> tasks = taskRepository.findAll();
         model.addAttribute("tasks", tasks);
+
+        List<Task> importantTasks = tasks
+                .stream()
+                .filter(Task::isImportant)
+                .collect(toList());
+        model.addAttribute("importantTasks", importantTasks);
+
         TaskForm taskForm = new TaskForm();
         model.addAttribute("taskForm", taskForm);
         return "tasks";
