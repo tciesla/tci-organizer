@@ -15,44 +15,48 @@
 
 <div class="container">
 
-    <div class="row">
-        <table class="table table-condensed table-hover">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="task,iter : ${importantTasks}">
-                    <td class="col-xs-1" th:text="${iter.index+1}"></td>
-                    <td class="col-xs-8" th:text="${task.name}"></td>
-                    <td class="col-xs-2">
-                        <form style="float: left" action="#" th:action="@{'/tasks/{id}/important'(id=${task.id})}" th:method="put">
-                            <button type="submit" class="btn btn-xs btn-danger">
-                                <span class="glyphicon glyphicon-fire"></span>
-                            </button>
-                        </form>
-                        <form style="float: left" action="#" th:action="@{'/tasks/{id}/complete'(id=${task.id})}" th:method="put">
-                            <button type="submit" class="btn btn-xs btn-success">
-                                <span class="glyphicon glyphicon-ok-circle"></span>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <!--<div class="row">-->
+        <!--<table class="table table-condensed table-hover">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>#</th>-->
+                <!--<th>Name</th>-->
+                <!--<th>Actions</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+                <!--<tr th:each="task,iter : ${importantTasks}">-->
+                    <!--<td class="col-xs-1" th:text="${iter.index+1}"></td>-->
+                    <!--<td class="col-xs-8" th:text="${task.name}"></td>-->
+                    <!--<td class="col-xs-2">-->
+                        <!--<form style="float: left" action="#" th:action="@{'/tasks/{id}/important'(id=${task.id})}" th:method="put">-->
+                            <!--<button type="submit" class="btn btn-xs btn-danger">-->
+                                <!--<span class="glyphicon glyphicon-fire"></span>-->
+                            <!--</button>-->
+                        <!--</form>-->
+                        <!--<form style="float: left" action="#" th:action="@{'/tasks/{id}/complete'(id=${task.id})}" th:method="put">-->
+                            <!--<button type="submit" class="btn btn-xs btn-success">-->
+                                <!--<span class="glyphicon glyphicon-ok-circle"></span>-->
+                            <!--</button>-->
+                        <!--</form>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+    <!--</div>-->
 
     <div class="row">
-        <table class="table table-condensed table-hover">
+        <table id="tasksTable" class="table table-condensed table-hover">
             <thead>
-            <tr>
+            <tr class="info">
                 <th>#</th>
                 <th>Name</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>
+                    <button id="onlyImportantTasksButton" class="btn btn-xs btn-danger">
+                        <span class="glyphicon glyphicon-fire"></span>
+                    </button>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -98,6 +102,12 @@
 
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
         th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+<script>
+    $("#onlyImportantTasksButton").click(function() {
+        $("#tasksTable").find("tbody").find("tr:not(.danger)").toggle();
+    });
+</script>
 
 </body>
 </html>
