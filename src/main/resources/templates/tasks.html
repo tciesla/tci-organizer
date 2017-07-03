@@ -24,10 +24,30 @@
                 <th>Name</th>
                 <th>Status</th>
                 <th>
+                    <button id="createTaskButton" class="btn btn-xs btn-success">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </button>
                     <button id="onlyImportantTasksButton" class="btn btn-xs btn-danger">
                         <span class="glyphicon glyphicon-fire"></span>
                     </button>
                 </th>
+            </tr>
+            <tr id="createTaskTableRow" style="display: none">
+                <form class="form-inline" action="#" th:action="@{/tasks}" th:object="${taskForm}" th:method="post">
+                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Task name" th:field="*{name}"/>
+                    </td>
+                    <td></td>
+                    <td>
+                        <button type="submit" id="confirmCreateTaskButton" class="btn btn-xs btn-success">
+                            <span class="glyphicon glyphicon-ok-sign"></span>
+                        </button>
+                        <button type="reset" id="rejectCreateTaskButton" class="btn btn-xs btn-danger">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                        </button>
+                    </td>
+                </form>
             </tr>
             </thead>
             <tbody>
@@ -58,17 +78,6 @@
         </table>
     </div>
 
-    <div class="row">
-        <form class="form-inline" action="#" th:action="@{/tasks}" th:object="${taskForm}" th:method="post">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Task name" th:field="*{name}"/>
-            </div>
-            <button type="submit" class="btn btn-success">
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </button>
-        </form>
-    </div>
-
 </div>
 
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
@@ -78,6 +87,15 @@
     $("#onlyImportantTasksButton").click(function() {
         $("#tasksTable").find("tbody").find("tr:not(.importantTask)").toggle();
     });
+
+    $('#createTaskButton').click(function() {
+        $('#createTaskTableRow').toggle();
+    });
+
+    $('#rejectCreateTaskButton').click(function() {
+        $('#createTaskTableRow').hide();
+    })
+
 </script>
 
 </body>

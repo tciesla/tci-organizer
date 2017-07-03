@@ -4,7 +4,7 @@ body {
     font-style: italic;
 }
 
-.table thead tr {
+.table thead tr:first-child {
     background: #46b8da;
 }
 
@@ -14,4 +14,8 @@ body {
 
 .table-hover tbody tr:hover td {
     background-color: #49515a;
+}
+
+.form-control {
+    height: 28px;
 }
