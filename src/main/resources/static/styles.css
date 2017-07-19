@@ -8,10 +8,6 @@ body {
     background: #46b8da;
 }
 
-.table tbody tr.importantTask {
-    background: #ec4844;
-}
-
 .table-hover tbody tr:hover td {
     background-color: #49515a;
 }

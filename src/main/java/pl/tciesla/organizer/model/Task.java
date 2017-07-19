@@ -20,7 +20,6 @@ public class Task implements Comparable<Task> {
     @Getter private String name;
     @Getter private Status status;
     @Getter private Integer priority;
-    @Getter private boolean important;
 
     @Getter
     @XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
@@ -43,10 +42,6 @@ public class Task implements Comparable<Task> {
         this.status = Status.NEW;
         this.priority = 0;
         this.created = LocalDateTime.now();
-    }
-
-    public void toggleImportant() {
-        this.important = !this.important;
     }
 
     public void prioritize(int votes) {

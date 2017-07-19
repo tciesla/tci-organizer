@@ -13,8 +13,6 @@ import pl.tciesla.organizer.repository.TaskRepositoryXml;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
 @Controller
 public class TaskController {
 
@@ -34,13 +32,6 @@ public class TaskController {
     public String tasks(Model model) {
         List<Task> tasks = taskRepository.findAll();
         model.addAttribute("tasks", tasks);
-
-        List<Task> importantTasks = tasks
-                .stream()
-                .filter(Task::isImportant)
-                .collect(toList());
-        model.addAttribute("importantTasks", importantTasks);
-
         TaskForm taskForm = new TaskForm();
         model.addAttribute("taskForm", taskForm);
         return "tasks";
@@ -64,14 +55,6 @@ public class TaskController {
     public String prioritize(@PathVariable Long taskId, @PathVariable Integer votes) {
         Optional<Task> taskOptional = taskRepository.find(taskId);
         taskOptional.ifPresent(task -> task.prioritize(votes));
-        taskOptional.ifPresent(taskRepository::save);
-        return REDIRECT;
-    }
-
-    @PutMapping("/tasks/{taskId}/important")
-    public String importantTask(@PathVariable Long taskId) {
-        Optional<Task> taskOptional = taskRepository.find(taskId);
-        taskOptional.ifPresent(Task::toggleImportant);
         taskOptional.ifPresent(taskRepository::save);
         return REDIRECT;
     }
