@@ -22,6 +22,7 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Priority</th>
                 <th>Status</th>
                 <th>
                     <button id="createTaskButton" class="btn btn-xs btn-success">
@@ -39,6 +40,7 @@
                         <input type="text" class="form-control" placeholder="Task name" th:field="*{name}"/>
                     </td>
                     <td></td>
+                    <td></td>
                     <td>
                         <button type="submit" id="confirmCreateTaskButton" class="btn btn-xs btn-success">
                             <span class="glyphicon glyphicon-ok-sign"></span>
@@ -51,14 +53,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="task,iter : ${tasks}" th:classappend="${task.important} ? importantTask : ''">
+            <tr th:each="task,iter : ${#lists.sort(tasks)}" th:classappend="${task.important} ? importantTask : ''">
                 <td class="col-xs-1" th:text="${iter.index+1}"></td>
-                <td class="col-xs-8" th:text="${task.name}"></td>
+                <td class="col-xs-7" th:text="${task.name}"></td>
+                <td class="col-xs-1">
+                    <span class="badge" th:text="${task.priority}"></span>
+                </td>
                 <td class="col-xs-1" th:text="${task.status}"></td>
                 <td class="col-xs-2">
-                    <form style="float: left" action="#" th:action="@{'/tasks/{id}/important'(id=${task.id})}" th:method="put">
+                    <form style="float: left" action="#" th:method="put" th:action="@{'/tasks/{id}/prioritize/1'(id=${task.id})}">
                         <button type="submit" class="btn btn-xs btn-danger">
                             <span class="glyphicon glyphicon-fire"></span>
+                        </button>
+                    </form>
+                    <form style="float: left" action="#" th:method="put" th:action="@{'/tasks/{id}/prioritize/-1'(id=${task.id})}">
+                        <button type="submit" class="btn btn-xs btn-info">
+                            <span class="glyphicon glyphicon-tint"></span>
                         </button>
                     </form>
                     <form style="float: left" action="#" th:action="@{'/tasks/{id}/complete'(id=${task.id})}" th:method="put">

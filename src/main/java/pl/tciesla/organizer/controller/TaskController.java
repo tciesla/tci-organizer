@@ -60,6 +60,14 @@ public class TaskController {
         return REDIRECT;
     }
 
+    @PutMapping("/tasks/{taskId}/prioritize/{votes}")
+    public String prioritize(@PathVariable Long taskId, @PathVariable Integer votes) {
+        Optional<Task> taskOptional = taskRepository.find(taskId);
+        taskOptional.ifPresent(task -> task.prioritize(votes));
+        taskOptional.ifPresent(taskRepository::save);
+        return REDIRECT;
+    }
+
     @PutMapping("/tasks/{taskId}/important")
     public String importantTask(@PathVariable Long taskId) {
         Optional<Task> taskOptional = taskRepository.find(taskId);

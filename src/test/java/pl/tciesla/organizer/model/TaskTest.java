@@ -48,6 +48,14 @@ public class TaskTest {
     }
 
     @Test
+    public void should_create_task_with_zero_priority() throws Exception {
+        // when
+        Task task = new Task(id, name);
+        // then
+        assertThat(task.getPriority()).isEqualTo(0);
+    }
+
+    @Test
     public void should_initialize_task_created_date() throws Exception {
         // when
         Task task = new Task(id, name);
@@ -93,6 +101,17 @@ public class TaskTest {
         task.complete();
         // then
         assertThat(task.getFinished().isPresent()).isTrue();
+    }
+
+    @Test
+    public void should_add_five_votes_to_task_priority() throws Exception {
+        // given
+        Task task = new Task(id, name);
+        int fiveVotes = 5;
+        // when
+        task.prioritize(fiveVotes);
+        // then
+        assertThat(task.getPriority()).isEqualTo(fiveVotes);
     }
 
 }

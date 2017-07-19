@@ -14,11 +14,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Task {
+public class Task implements Comparable<Task> {
 
     @Getter private Long id;
     @Getter private String name;
     @Getter private Status status;
+    @Getter private Integer priority;
     @Getter private boolean important;
 
     @Getter
@@ -40,11 +41,16 @@ public class Task {
         this.id = checkNotNull(id, "id == null");
         this.name = checkNotNull(name, "name == null");
         this.status = Status.NEW;
+        this.priority = 0;
         this.created = LocalDateTime.now();
     }
 
     public void toggleImportant() {
         this.important = !this.important;
+    }
+
+    public void prioritize(int votes) {
+        this.priority += votes;
     }
 
     public void complete() {
@@ -54,6 +60,11 @@ public class Task {
 
     public Optional<LocalDateTime> getFinished() {
         return Optional.ofNullable(finished);
+    }
+
+    @Override
+    public int compareTo(Task otherTask) {
+        return otherTask.priority.compareTo(priority);
     }
 
 }
