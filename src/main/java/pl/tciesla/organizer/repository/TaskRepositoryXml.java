@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import pl.tciesla.organizer.model.Task;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -30,8 +32,19 @@ public class TaskRepositoryXml implements TaskRepository {
 
     public static final String BEAN_NAME = "taskRepositoryXml";
 
-    // TODO create property and inject it here
-    private String xmlFileRepositoryPath = "C:/database/tasks.xml";
+    private final String xmlFileRepositoryPath;
+
+    public TaskRepositoryXml(@Value("${tasks.repository.xml}") String xmlFileRepositoryPath) {
+        this.xmlFileRepositoryPath = xmlFileRepositoryPath;
+    }
+
+    @PostConstruct
+    public void postConstruct() throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(TasksWrapper.class);
+        createMarshallerWithProperties(context);
+        unmarshaller = context.createUnmarshaller();
+        createXmlFileRepositoryIfNotExists();
+    }
 
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
@@ -43,13 +56,6 @@ public class TaskRepositoryXml implements TaskRepository {
         @Getter @Setter
         private List<Task> tasks = Lists.newArrayList();
 }
-
-    public TaskRepositoryXml() throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(TasksWrapper.class);
-        createMarshallerWithProperties(context);
-        unmarshaller = context.createUnmarshaller();
-        createXmlFileRepositoryIfNotExists();
-    }
 
     private void createMarshallerWithProperties(JAXBContext context) throws JAXBException {
         marshaller = context.createMarshaller();
