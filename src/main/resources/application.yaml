@@ -1,0 +1,21 @@
+tasks.repository.xml: tasks.xml
+
+spring:
+  profiles:
+    active: ${ORGANIZER_PROFILE:dev}
+
+---
+spring:
+  profiles: dev
+
+organizer:
+  username: ${ORGANIZER_USERNAME:admin}
+  password: ${ORGANIZER_PASSWORD:admin}
+
+---
+spring:
+  profiles: prod
+
+organizer:
+  username: ${ORGANIZER_USERNAME}
+  password: ${ORGANIZER_PASSWORD}
