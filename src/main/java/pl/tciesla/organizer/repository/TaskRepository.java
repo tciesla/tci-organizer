@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface TaskRepository {
 
-    Long nextId();
+    String nextUuid();
     List<Task> findAll();
-    Optional<Task> find(Long taskId);
+    Optional<Task> find(String taskUuid);
     void save(Task task);
-    void delete(Long taskId);
+    void delete(String taskUuid);
 }

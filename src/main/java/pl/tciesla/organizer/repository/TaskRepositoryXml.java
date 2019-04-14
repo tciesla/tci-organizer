@@ -1,6 +1,5 @@
 package pl.tciesla.organizer.repository;
 
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +19,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -54,7 +54,7 @@ public class TaskRepositoryXml implements TaskRepository {
     @XmlRootElement(name = "tasks")
     public static class TasksWrapper {
         @Getter @Setter
-        private List<Task> tasks = Lists.newArrayList();
+        private List<Task> tasks = new ArrayList<>();
 }
 
     private void createMarshallerWithProperties(JAXBContext context) throws JAXBException {
@@ -71,9 +71,8 @@ public class TaskRepositoryXml implements TaskRepository {
     }
 
     @Override
-    public Long nextId() {
-        OptionalLong maxIdOptional = findAll().stream().mapToLong(Task::getId).max();
-        return maxIdOptional.isPresent() ? maxIdOptional.getAsLong() + 1 : 1L;
+    public String nextUuid() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
@@ -86,20 +85,20 @@ public class TaskRepositoryXml implements TaskRepository {
             // TODO handle error
             e.printStackTrace();
         }
-        return Lists.newArrayList();
+        return new ArrayList<>();
     }
 
     @Override
-    public Optional<Task> find(Long taskId) {
+    public Optional<Task> find(String taskUuid) {
         return findAll().stream()
-                .filter(task -> task.getId().equals(taskId))
+                .filter(task -> task.getUuid().equals(taskUuid))
                 .findAny();
     }
 
     @Override
     public void save(Task task) {
         List<Task> tasks = findAll().stream()
-                .filter(t -> !t.getId().equals(task.getId()))
+                .filter(t -> !t.getUuid().equals(task.getUuid()))
                 .collect(toList());
         tasks.add(task);
         try {
@@ -113,9 +112,9 @@ public class TaskRepositoryXml implements TaskRepository {
     }
 
     @Override
-    public void delete(Long taskId) {
+    public void delete(String taskUuid) {
         List<Task> tasks = findAll().stream()
-                .filter(task -> !task.getId().equals(taskId))
+                .filter(task -> !task.getUuid().equals(taskUuid))
                 .collect(toList());
         try {
             File xmlRepositoryFile = Paths.get(xmlFileRepositoryPath).toFile();

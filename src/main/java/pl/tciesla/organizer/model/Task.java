@@ -10,16 +10,23 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Task implements Comparable<Task> {
 
-    @Getter private Long id;
-    @Getter private String name;
-    @Getter private Status status;
-    @Getter private Integer priority;
+    @Getter
+    private String uuid;
+
+    @Getter
+    private String title;
+
+    @Getter
+    private Status status;
+
+    @Getter
+    private Integer priority;
 
     @Getter
     @XmlJavaTypeAdapter(LocalDateTimeXmlAdapter.class)
@@ -36,9 +43,9 @@ public class Task implements Comparable<Task> {
     @SuppressWarnings("unused")
     private Task() {}
 
-    public Task(Long id, String name) {
-        this.id = checkNotNull(id, "id == null");
-        this.name = checkNotNull(name, "name == null");
+    public Task(String uuid, String title) {
+        this.uuid = requireNonNull(uuid, "uuid == null");
+        this.title = requireNonNull(title, "title == null");
         this.status = Status.NEW;
         this.priority = 0;
         this.created = LocalDateTime.now();
