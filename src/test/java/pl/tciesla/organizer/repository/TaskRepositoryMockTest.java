@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TaskRepositoryMockTest {
 
     @Test
-    public void should_repository_contains_5_example_tasks() {
+    public void should_mock_repository_contains_5_example_tasks() {
         // given
         TaskRepository taskRepository = new TaskRepositoryMock();
         // when
@@ -20,40 +20,16 @@ public class TaskRepositoryMockTest {
     }
 
     @Test
-    public void should_remove_task_with_id_2() {
+    public void should_remove_task_by_uuid() {
         // given
         TaskRepository taskRepository = new TaskRepositoryMock();
+        Task exampleTask = taskRepository.findAll().stream().findAny().get();
         // when
-        taskRepository.delete(2L);
+        taskRepository.delete(exampleTask.getUuid());
         // then
         List<Task> tasks = taskRepository.findAll();
         assertThat(tasks).hasSize(4);
-        assertThat(tasks.stream().anyMatch(task -> task.getId() == 2L)).isFalse();
-    }
-
-    @Test
-    public void should_return_1_as_initial_id() {
-        // given
-        TaskRepository taskRepository = new TaskRepositoryMock();
-        taskRepository.delete(1L);
-        taskRepository.delete(2L);
-        taskRepository.delete(3L);
-        taskRepository.delete(4L);
-        taskRepository.delete(5L);
-        // when
-        Long id = taskRepository.nextId();
-        // then
-        assertThat(id).isEqualTo(1);
-    }
-
-    @Test
-    public void should_return_6_as_next_id() {
-        // given
-        TaskRepository taskRepository = new TaskRepositoryMock();
-        // when
-        Long id = taskRepository.nextId();
-        // then
-        assertThat(id).isEqualTo(6);
+        assertThat(tasks.stream().anyMatch(task -> task.getUuid().equals(exampleTask.getUuid()))).isFalse();
     }
 
 }

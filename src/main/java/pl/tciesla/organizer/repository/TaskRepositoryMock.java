@@ -7,26 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalLong;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 
 @Repository
 public class TaskRepositoryMock implements TaskRepository {
 
-    private Map<Long, Task> tasks = new ConcurrentHashMap<>();
+    private Map<String, Task> tasks = new ConcurrentHashMap<>();
 
     TaskRepositoryMock() {
-        tasks.put(1L, new Task(1L, "Example task #1"));
-        tasks.put(2L, new Task(2L, "Example task #2"));
-        tasks.put(3L, new Task(3L, "Example task #3"));
-        tasks.put(4L, new Task(4L, "Example task #4"));
-        tasks.put(5L, new Task(5L, "Example task #5"));
+        IntStream.range(1, 6)
+                .mapToObj(i -> new Task(nextUuid(), "example task #" + i))
+                .forEach(task -> tasks.put(task.getUuid(), task));
     }
 
     @Override
-    public Long nextId() {
-        OptionalLong previousId = tasks.keySet().stream().mapToLong(k -> k).max();
-        return previousId.isPresent() ? previousId.getAsLong() + 1 : 1L;
+    public String nextUuid() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
@@ -35,18 +33,18 @@ public class TaskRepositoryMock implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> find(Long taskId) {
-        return Optional.ofNullable(tasks.get(taskId));
+    public Optional<Task> find(String taskUuid) {
+        return Optional.ofNullable(tasks.get(taskUuid));
     }
 
     @Override
     public void save(Task task) {
-        tasks.put(task.getId(), task);
+        tasks.put(task.getUuid(), task);
     }
 
     @Override
-    public void delete(Long taskId) {
-        tasks.remove(taskId);
+    public void delete(String taskUuid) {
+        tasks.remove(taskUuid);
     }
 
 }

@@ -8,7 +8,7 @@ import static org.junit.Assume.assumeTrue;
 
 public class TaskTest {
 
-    private final long id = 1L;
+    private final String uuid = "uuid";
     private final String name = "name";
 
     @Test(expected = NullPointerException.class)
@@ -20,29 +20,29 @@ public class TaskTest {
     @Test(expected = NullPointerException.class)
     public void should_throw_exception_when_name_is_null() throws Exception {
         // when
-        new Task(id, null);
+        new Task(uuid, null);
     }
 
     @Test
     public void should_initialize_task_id() throws Exception {
         // when
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         // then
-        assertThat(task.getId()).isEqualTo(id);
+        assertThat(task.getUuid()).isEqualTo(uuid);
     }
 
     @Test
     public void should_initialize_task_name() throws Exception {
         // when
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         // then
-        assertThat(task.getName()).isEqualTo(name);
+        assertThat(task.getTitle()).isEqualTo(name);
     }
 
     @Test
     public void should_create_task_with_new_status() throws Exception {
         // when
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         // then
         assertThat(task.getStatus()).isEqualTo(Task.Status.NEW);
     }
@@ -50,7 +50,7 @@ public class TaskTest {
     @Test
     public void should_create_task_with_zero_priority() throws Exception {
         // when
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         // then
         assertThat(task.getPriority()).isEqualTo(0);
     }
@@ -58,7 +58,7 @@ public class TaskTest {
     @Test
     public void should_initialize_task_created_date() throws Exception {
         // when
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         // then
         assertThat(task.getCreated()).isNotNull();
     }
@@ -66,7 +66,7 @@ public class TaskTest {
     @Test
     public void should_complete_change_task_status_to_completed() throws Exception {
         // given
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         assumeTrue(task.getStatus() == Task.Status.NEW);
         // when
         task.complete();
@@ -77,7 +77,7 @@ public class TaskTest {
     @Test
     public void should_complete_initialize_finished_date() throws Exception {
         // given
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         assumeFalse(task.getFinished().isPresent());
         // when
         task.complete();
@@ -88,7 +88,7 @@ public class TaskTest {
     @Test
     public void should_add_five_votes_to_task_priority() throws Exception {
         // given
-        Task task = new Task(id, name);
+        Task task = new Task(uuid, name);
         int fiveVotes = 5;
         // when
         task.prioritize(fiveVotes);
